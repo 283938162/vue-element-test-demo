@@ -10,33 +10,32 @@
 
 <script>
 
-  export default {
-    name: 'Login',
-    data () {
-      return {
-        loginForm: {
-          username: '',
-          password: ''
-        },
-        responseResult: []
-      }
-    },
-    methods: {
-      login () {
-        this.$axios
-          .post('/login', {
-            username: this.loginForm.username,
-            password: this.loginForm.password
-          })
-          .then(successResponse => {
-          if (successResponse.data.code === 200) {
-          this.$router.replace({path: '/index'})
-        }
-      })
-      .catch(failResponse => {
+export default {
+  name: 'Login',
+  data () {
+    return {
+      loginForm: {
+        username: '',
+        password: ''
+      },
+      responseResult: []
+    }
+  },
+  methods: {
+    login () {
+      this.$axios
+        .post('/login', {
+          username: this.loginForm.username,
+          password: this.loginForm.password
         })
-      }
+        .then(successResponse => {
+          if (successResponse.data.code === 200) {
+            this.$router.replace({path: '/index'})
+          }
+        })
+        .catch(failResponse => {
+        })
     }
   }
+}
 </script>
-
