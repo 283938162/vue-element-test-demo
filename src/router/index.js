@@ -8,7 +8,7 @@ import Test from '@/components/Test'
 Vue.use(Router)
 
 export default new Router({
-  mode:'history',
+  mode: 'history',
   routes: [
     {
       path: '/',
@@ -28,7 +28,10 @@ export default new Router({
     {
       path: '/index',
       name: 'AppIndex',
-      component: AppIndex
+      component: AppIndex,
+      meta: {
+        requireAuth: true
+      }
     }
   ]
 })
