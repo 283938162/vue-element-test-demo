@@ -1,6 +1,6 @@
 <template>
     <div>
-       Hello Vue!
+     componments下自定义的控件 Hello Vue! Im coming!
     </div>
 </template>
 
