@@ -1,5 +1,7 @@
 import Vue from 'vue'
 import Router from 'vue-router'
+
+// 导入刚才编写的组件
 import HelloWorld from '@/components/HelloWorld'
 import AppIndex from '@/components/home/AppIndex'
 import Login from '@/components/Login'

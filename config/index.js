@@ -10,7 +10,7 @@ module.exports = {
     // Paths
     assetsSubDirectory: 'static',
     assetsPublicPath: '/',
-    //配置跨域支持
+    // 为了让后端能够访问到前端的资源，需要配置跨域支持。
     proxyTable: {
       '/api': {
         target: 'http://localhost:8443',
