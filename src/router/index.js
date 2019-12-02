@@ -6,6 +6,9 @@ import HelloWorld from '@/components/HelloWorld'
 import AppIndex from '@/components/home/AppIndex'
 import Login from '@/components/Login'
 import Test from '@/components/Test'
+import Home from '@/components/Home'
+import LibraryIndex from '../components/library/LibraryIndex'
+import About from '../components/library/About'
 
 Vue.use(Router)
 
@@ -28,12 +31,36 @@ export default new Router({
       component: Login
     },
     {
-      path: '/index',
-      name: 'AppIndex',
-      component: AppIndex,
-      meta: {
-        requireAuth: true
-      }
+      path:'/home',
+      name:'Home',
+      component:Home,
+      redirect:'/index',
+      children:[
+        {
+          path: '/index',
+          name: 'AppIndex',
+          component: AppIndex,
+          meta: {
+            requireAuth: true
+          }
+        },
+        {
+          path: '/library',
+          name: 'Library',
+          component: LibraryIndex,
+          meta: {
+            requireAuth: true
+          }
+        },
+        {
+          path: '/about',
+          name: 'About',
+          component: About,
+          meta: {
+            requireAuth: true
+          }
+        }
+      ]
     }
   ]
 })
