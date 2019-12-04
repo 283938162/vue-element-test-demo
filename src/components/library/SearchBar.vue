@@ -12,6 +12,8 @@
   </div>
 </template>
 
+<!--父子组件调用,网络请求-->
+
 <script>
   export default {
     name: 'SearchBar',

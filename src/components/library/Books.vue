@@ -52,6 +52,8 @@
         pagesize: 17
       }
     },
+
+    // mounted 钩子函数
     mounted: function () {
       this.loadBooks()
     },

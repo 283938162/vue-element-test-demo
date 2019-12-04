@@ -35,6 +35,11 @@
   </el-menu>
 </template>
 
+<!--SideMenu是LibraryIndex的一个子组件-->
+
+
+<!--点击左侧边导航栏的一个标签之后,触发el-menu组件的@select事件, 执行handleSelect-->
+<!--handle方法出发了父组件中indexSelect事件,并把 key，即 <el-menu-item> 标签的 index 属性的值赋给 data 中定义的属性，即分类码。-->
 <script>
   export default {
     name: 'SideMenu',
