@@ -1,4 +1,4 @@
-<template>
+<template xmlns:v-on="http://www.w3.org/1999/xhtml">
   <el-menu
     :default-active="'/index'"
     router
@@ -13,6 +13,8 @@
     <a href="#nowhere" style="color: #222;float: right;padding: 20px;">更多功能</a>
     <i class="el-icon-menu" style="float:right;font-size: 45px;color: #222;padding-top: 8px"></i>
     <span style="position: absolute;padding-top: 20px;right: 43%;font-size: 20px;font-weight: bold">White Jotter - Your Mind Palace</span>
+    <!--<i class="el-icon-switch-button" v-on:click="logout" style="float:right;font-size: 40px;color: #222;padding: 10px"></i>-->
+    <i class="el-icon-switch-button" @click="logout" style="float:right;font-size: 40px;color: #222;padding: 10px"></i>
   </el-menu>
 </template>
 
@@ -29,6 +31,20 @@
           {name: '/about', navItem:'关于'}
         ]
       }
+    },
+    method:{
+      logout(){
+        var _this = this
+        this.$axios.get("/logout").then(
+          resp => {
+            if(resp.data.code === 200){
+              //前后端状态保持一致
+              _this.$store.commit('logout')
+              _this.$router.replace('/login')
+            }
+          }
+        )
+      }
     }
   }
 </script>
@@ -41,5 +57,11 @@
   span{
     pointer-events: none;
   }
+
+  .el-icon-switch-button {
+    cursor: pointer;
+    outline:0;
+  }
+
 
 </style>
