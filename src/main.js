@@ -15,11 +15,10 @@ axios.defaults.baseURL = 'http://localhost:8443/api'
 // axios.defaults.baseURL = 'http://120.77.83.59:8443/api'
 
 //为了让前端能够带上 cookie，我们需要通过 axios 主动开启 withCredentials 功能
-axios.defaults.withCredentials = true;
+axios.defaults.withCredentials = true
 
 //全局注册，之后可在其他组件中通过 this.$axios 发送数据
 Vue.prototype.$axios = axios
-
 
 Vue.config.productionTip = false
 
@@ -49,9 +48,12 @@ Vue.use(ElementUI)
 
 router.beforeEach((to,from,next) => {
   if (to.meta.requireAuth){
+    console.log("AAAA")
     if(store.state.user){
+      console.log("BBBB")
       axios.get('/authentication').then(
         resp => {
+          console.log("CCCC")
           if (resp) next()
         }
       )
@@ -76,3 +78,5 @@ new Vue({
   components: { App },
   template: '<App/>'
 })
+
+

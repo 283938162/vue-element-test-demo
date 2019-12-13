@@ -14,7 +14,7 @@
     <i class="el-icon-menu" style="float:right;font-size: 45px;color: #222;padding-top: 8px"></i>
     <span style="position: absolute;padding-top: 20px;right: 43%;font-size: 20px;font-weight: bold">White Jotter - Your Mind Palace</span>
     <!--<i class="el-icon-switch-button" v-on:click="logout" style="float:right;font-size: 40px;color: #222;padding: 10px"></i>-->
-    <i class="el-icon-switch-button" @click="logout" style="float:right;font-size: 40px;color: #222;padding: 10px"></i>
+    <i class="el-icon-switch-button" v-on:click="logout" style="float:right;font-size: 40px;color: #222;padding: 10px"></i>
   </el-menu>
 </template>
 
@@ -32,18 +32,19 @@
         ]
       }
     },
-    method:{
-      logout(){
+
+    // methods 不是method  这个地方看了好半天  细节之处!
+    methods:{
+      logout () {
         var _this = this
-        this.$axios.get("/logout").then(
-          resp => {
-            if(resp.data.code === 200){
-              //前后端状态保持一致
-              _this.$store.commit('logout')
-              _this.$router.replace('/login')
-            }
+        this.$axios.get('/logout').then(resp => {
+          if (resp.data.code === 200) {
+            // 前后端状态保持一致
+            _this.$store.commit('logout')
+            _this.$router.replace('/login')
           }
-        )
+        }).catch(failResponse => {
+        })
       }
     }
   }

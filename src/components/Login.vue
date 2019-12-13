@@ -1,4 +1,4 @@
-<template>
+<template xmlns:v-on="">
 
   <!--原始登录demo-->
   <!--<div>-->
