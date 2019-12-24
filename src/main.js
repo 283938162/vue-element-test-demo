@@ -46,27 +46,88 @@ Vue.use(ElementUI)
 
 // 引入shiro认证之后
 
-router.beforeEach((to,from,next) => {
-  if (to.meta.requireAuth){
-    console.log("AAAA")
-    if(store.state.user){
-      console.log("BBBB")
-      axios.get('/authentication').then(
-        resp => {
-          console.log("CCCC")
-          if (resp) next()
-        }
-      )
-    }else{
+// router.beforeEach((to,from,next) => {
+//   if (to.meta.requireAuth){
+//     if(store.state.user){
+//       axios.get('/authentication').then(
+//         resp => {
+//           if (resp) next()
+//         }
+//       )
+//     }else{
+//       next({
+//         path:'login',
+//         query:{redirect:to.fullPath}
+//       })
+//     }
+//   } else {
+//     next()
+//   }
+// })
+
+
+//如果前端没有登录信息则直接拦截,如果有则判断后盾是否正常登录(防止构造参数绕过)
+router.beforeEach((to, from, next) => {
+  if (store.state.user.username && to.path.startsWith('/admin')) {
+    axios.get('./authentication').then(rsrp => {
+      initAdminMenu(router, store)
+    })
+  }
+  if (to.meta.requireAuth) {
+    if (store.state.user.username) {
+      axios.get('/authentication').then(resp => {
+        if (resp) next()
+      })
+    } else {
       next({
-        path:'login',
-        query:{redirect:to.fullPath}
+        path: 'login',
+        query: {redirect: to.fullPath}
       })
     }
   } else {
     next()
   }
-})
+}
+)
+
+const initAdminMenu = (router, store) => {
+  if (store.state.adminMenus.length > 0) {
+    return
+  }
+  axios.get('/menu').then(resp => {
+    if (resp && resp.status === 200) {
+      var fmtRoutes = formatRoutes(resp.data)
+      router.addRoutes(fmtRoutes)
+      store.commit('initAdminMenu', fmtRoutes)
+    }
+  })
+}
+
+
+
+const formatRoutes = (routes) => {
+  let fmtRoutes = []
+  routes.forEach(route => {
+    if (route.children) {
+      route.children = formatRoutes(route.children)
+    }
+
+    let fmtRoute = {
+      path: route.path,
+      component: resolve => {
+        require(['./components/admin/' + route.component + '.vue'], resolve)
+      },
+      name: route.name,
+      nameZh: route.nameZh,
+      iconCls: route.iconCls,
+      children: route.children
+    }
+    fmtRoutes.push(fmtRoute)
+  })
+  return fmtRoutes
+}
+
+
 
 
 /* eslint-disable no-new */
@@ -75,7 +136,7 @@ new Vue({
   render: h => h(App),
   router,
   store,
-  components: { App },
+  components: {App},
   template: '<App/>'
 })
 
